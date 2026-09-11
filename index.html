@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Orientación Vocacional - UPTA</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- PWA: manifest y metadatos de instalación -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#cc0000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PixelVoc">
+    <link rel="apple-touch-icon" href="assets/iconos/icon-192.png">
+</head>
+<body>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="navigation-bar-container">
+        <button id="btn-global-back" class="btn-back-global hidden">
+            <span>⬅</span> <span data-i18n="backBtn">Volver</span>
+        </button>
+
+        <div class="lang-container">
+            <button id="btn-lang-es" class="btn-lang active">Español</button>
+            <button id="btn-lang-en" class="btn-lang">English</button>
+            <button id="btn-sound-toggle" class="btn-lang" title="Sonidos">🔊</button>
+            <button id="btn-theme-toggle" class="btn-lang" title="Cambiar tema">🌓</button>
+        </div>
+    </div>
+
+    <main class="app-container">
+
+        <!-- LOGIN -->
+        <section id="screen-login" class="view-box">
+            <h1 data-i18n="loginTitle">INICIAR SESIÓN</h1>
+            <p class="view-description" data-i18n="loginDesc">Ingresa al sistema para registrar tus estadísticas vocacionales.</p>
+            
+            <form id="form-login" style="position: relative; z-index: 1;">
+                <div class="form-group">
+                    <label for="login-user" data-i18n="labelUser">Usuario:</label>
+                    <input type="text" id="login-user" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="login-pass" data-i18n="labelPass">Contraseña:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-pass" required>
+                        <button type="button" class="toggle-password" data-target="login-pass" title="Mostrar contraseña">👁️</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-main" data-i18n="loginBtn">ENTRAR AL SISTEMA</button>
+                <button type="button" id="btn-guest-login" class="btn-secondary" data-i18n="guestBtn">Entrar como Invitado</button>
+            </form>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="#" id="link-to-register" class="auth-switch-link" data-i18n="registerLink">¿No tienes cuenta? Regístrate aquí</a>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="#" id="link-to-recover" class="auth-switch-link" style="font-size: 0.8rem;" data-i18n="recoverLink">¿Olvidaste tu contraseña?</a>
+            </div>
+        </section>
+
+        <!-- REGISTRO -->
+        <section id="screen-register" class="view-box hidden">
+            <h1 data-i18n="registerTitle">REGISTRO DE ESTUDIANTE</h1>
+            <p class="view-description" data-i18n="registerDesc">Crea un perfil local para guardar tu progreso académico.</p>
+            
+            <form id="form-register" style="position: relative; z-index: 1;">
+                <div class="form-group">
+                    <label for="reg-fullname" data-i18n="labelFullName">Nombre Completo:</label>
+                    <input type="text" id="reg-fullname" required autocomplete="off">
+                </div>
+                <div class="form-group" style="position: relative;">
+                    <label for="reg-email">Correo Electrónico:</label>
+                    <input type="email" id="reg-email" required autocomplete="off" placeholder="ejemplo@correo.com">
+                </div>
+                <div class="form-group">
+                    <label for="reg-user" data-i18n="labelUser">Usuario:</label>
+                    <input type="text" id="reg-user" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="reg-pass" data-i18n="labelPass">Contraseña:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="reg-pass" required minlength="8" title="Mínimo 8 caracteres">
+                        <button type="button" class="toggle-password" data-target="reg-pass" title="Mostrar contraseña">👁️</button>
+                    </div>
+                    <p class="pass-hint" data-i18n="passHint">Mínimo 8 caracteres</p>
+                </div>
+                <button type="submit" class="btn-main" data-i18n="registerBtn">CONFIRMAR REGISTRO</button>
+            </form>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="#" id="link-to-login" class="auth-switch-link" data-i18n="loginLink">¿Ya tienes cuenta? Inicia sesión</a>
+            </div>
+        </section>
+
+        <!-- RECUPERACIÓN -->
+        <section id="screen-recover" class="view-box hidden">
+            <h1>RECUPERAR CONTRASEÑA</h1>
+            <p class="view-description">Ingresa tu usuario y correo electrónico para recibir un código de recuperación.</p>
+            
+            <form id="form-recover" style="position: relative; z-index: 1;">
+                <div class="form-group">
+                    <label for="recover-user">Usuario:</label>
+                    <input type="text" id="recover-user" required autocomplete="off">
+                </div>
+                <div class="form-group" style="position: relative;">
+                    <label for="recover-email">Correo electrónico:</label>
+                    <input type="email" id="recover-email" required autocomplete="off">
+                </div>
+                <div id="recover-code-group" class="form-group hidden">
+                    <label for="recover-code">Código de verificación:</label>
+                    <input type="text" id="recover-code" placeholder="123456" autocomplete="off">
+                </div>
+                <div id="recover-new-pass-group" class="form-group hidden">
+                    <label for="recover-new-pass">Nueva contraseña:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="recover-new-pass" minlength="8" title="Mínimo 8 caracteres">
+                        <button type="button" class="toggle-password" data-target="recover-new-pass" title="Mostrar contraseña">👁️</button>
+                    </div>
+                    <p class="pass-hint" data-i18n="passHint">Mínimo 8 caracteres</p>
+                </div>
+                <button type="submit" class="btn-main" id="btn-recover-submit">ENVIAR CÓDIGO</button>
+            </form>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="#" id="link-recover-to-login" class="auth-switch-link">Volver al inicio de sesión</a>
+            </div>
+        </section>
+
+        <!-- CONFIGURACIÓN -->
+        <section id="screen-config" class="view-box hidden">
+            <h1 data-i18n="configTitle">PANEL DE CONFIGURACIÓN ACADÉMICA</h1>
+            
+            <div class="config-section">
+                <h3 data-i18n="difficultyLabel">Dificultad del Desafío:</h3>
+                <div class="btn-group difficulty-group">
+                    <button id="btn-diff-easy" class="btn-diff btn-active" data-diff="easy">Fácil (30s)</button>
+                    <button id="btn-diff-medium" class="btn-diff" data-diff="medium">Medio (20s)</button>
+                    <button id="btn-diff-hard" class="btn-diff" data-diff="hard">Difícil (10s)</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3 data-i18n="areasLabel">Especialidades Técnicas (Selección Múltiple):</h3>
+                <div class="areas-grid">
+                    <button class="btn-area" data-area="informatica">💻 Informática</button>
+                    <button class="btn-area" data-area="telecomunicaciones">📡 Telecom</button>
+                    <button class="btn-area" data-area="mecanica">⚙️ Mecánica</button>
+                    <button class="btn-area" data-area="electricidad">⚡ Electricidad</button>
+                    <button class="btn-area" data-area="contaduria">📊 Contaduría</button>
+                </div>
+            </div>
+
+            <div class="actions-row">
+                <button id="btn-start-trivia" class="btn-main-action" data-i18n="startTriviaBtn">INICIAR TRIVIA</button>
+                <button id="btn-practice-mode" class="btn-secondary-action" data-i18n="practiceBtn">MODO PRÁCTICA</button>
+                <button id="btn-view-sheets" class="btn-secondary-action" data-i18n="viewSheetsBtn">FICHAS ACADÉMICAS</button>
+                <button id="btn-view-ranking" class="btn-secondary-action" data-i18n="rankingBtn">🏆 RANKING</button>
+                <button id="btn-view-achievements" class="btn-secondary-action" data-i18n="achievementsBtn">🏅 LOGROS</button>
+                <button id="btn-install-pwa" class="btn-secondary-action hidden" data-i18n="installAppBtn">📲 INSTALAR APP</button>
+            </div>
+
+            <!-- PANEL DE PROGRESO -->
+            <div class="progress-panel">
+                <h3 data-i18n="progressTitle">📊 TU PROGRESO</h3>
+                <div id="progress-content">
+                    <p style="text-align:center;" data-i18n="noProgress">Aún no has jugado ninguna trivia.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="btn-logout" class="btn-secondary" style="color: #ff4444; text-decoration: none;" data-i18n="closeSession">🚪 Cerrar sesión</button>
+            </div>
+        </section>
+
+        <!-- RANKING -->
+        <section id="screen-ranking" class="view-box hidden">
+            <h1 data-i18n="rankingTitle">🏆 RANKING DE JUGADORES</h1>
+            <p class="view-description" data-i18n="rankingDesc">Los 5 mejores puntajes por especialidad.</p>
+            <div id="ranking-content"></div>
+            <button id="btn-clear-ranking" class="btn-secondary" style="color: #ff4444; margin-top: 20px;" data-i18n="clearRanking">🗑️ Borrar ranking</button>
+        </section>
+
+        <!-- FICHAS -->
+        <section id="screen-sheets" class="view-box hidden">
+            <h1 data-i18n="sheetsTitle">FICHAS TÉCNICAS ACADÉMICAS</h1>
+            <p class="view-description" data-i18n="sheetsDesc">Explora los perfiles de egreso de las áreas universitarias.</p>
+            
+            <div class="btn-group-sheets">
+                <button class="btn-sheet-select active" data-sheet="informatica">Informática</button>
+                <button class="btn-sheet-select" data-sheet="telecomunicaciones">Telecom</button>
+                <button class="btn-sheet-select" data-sheet="mecanica">Mecánica</button>
+                <button class="btn-sheet-select" data-sheet="electricidad">Electricidad</button>
+                <button class="btn-sheet-select" data-sheet="contaduria">Contaduría</button>
+            </div>
+
+            <div class="ficha-layout-custom">
+                <img id="ficha-avatar-img" src="assets/avatars/avatar_informatica_lado.png" alt="Avatar Perfil" class="ficha-avatar-side">
+                <div class="ficha-text-content">
+                    <h2 id="sheet-title-display">PNF en Informática</h2>
+                    <p id="sheet-body-display">Cargando datos...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRIVIA -->
+        <section id="screen-game" class="view-box hidden">
+            <div class="game-top-bar">
+                <div class="avatar-container-box">
+                    <img id="game-avatar-img" src="assets/avatars/avatar_informatica_idle.png" alt="Avatar Especialidad" class="game-avatar-render">
+                </div>
+                <div class="game-indicators">
+                    <div class="indicator-box">
+                        <span data-i18n="labelLives">Vidas:</span> 
+                        <span id="lives-display" class="lives-wrapper">❤️❤️❤️</span>
+                    </div>
+                    <div class="indicator-box"><span data-i18n="labelTime">Tiempo:</span> <strong id="timer-counter">30</strong>s</div>
+                    <div class="indicator-box" id="practice-indicator" style="display:none;">
+                        <span data-i18n="practiceMode">🎯 Modo Práctica</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <h2 id="question-text">Cargando reactivo técnico...</h2>
+                <div id="options-container" class="options-layout"></div>
+            </div>
+
+            <div id="feedback-box" class="feedback-card hidden">
+                <h3 id="feedback-title"></h3>
+                <p id="feedback-explanation"></p>
+                <button id="btn-next" class="btn-main" data-i18n="nextBtn">CONTINUAR</button>
+            </div>
+        </section>
+
+        <!-- INFORME -->
+        <section id="screen-report" class="view-box hidden">
+            <h1 data-i18n="reportTitle">INFORME DE EVALUACIÓN VOCACIONAL</h1>
+            <p class="report-lead" data-i18n="reportSubtitle">Resultados estadísticos basados en competencias cognitivas.</p>
+
+            <div class="report-grid">
+                <div class="report-chart">
+                    <h3 data-i18n="reportStatsTitle">Afinidad por Especialidad Técnica:</h3>
+                    <div id="chart-bars-container"></div>
+                </div>
+                <div class="report-verdict">
+                    <h3 data-i18n="reportVerdictTitle">Dictamen de Orientación Vocacional:</h3>
+                    <p id="report-verdict-text"></p>
+                </div>
+            </div>
+
+            <div class="share-buttons">
+                <h3 data-i18n="shareTitle">📢 Compartir resultado</h3>
+                <button class="btn-share btn-whatsapp" id="btn-share-whatsapp" data-i18n="shareWhatsapp">WhatsApp</button>
+                <button class="btn-share btn-twitter" id="btn-share-twitter" data-i18n="shareTwitter">Twitter/X</button>
+                <button class="btn-share btn-copy" id="btn-share-copy" data-i18n="shareCopy">📋 Copiar texto</button>
+            </div>
+
+            <button id="btn-finish-report" class="btn-main-action" data-i18n="backMenuBtn">VOLVER AL PANEL</button>
+        </section>
+
+        <!-- LOGROS -->
+        <section id="screen-achievements" class="view-box hidden">
+            <h1 data-i18n="achievementsTitle">🏅 LOGROS</h1>
+            <p class="view-description" data-i18n="achievementsDesc">Desbloquea logros mientras juegas y demuestra tu dominio.</p>
+
+            <div class="achievements-stats">
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-unlocked">0</span>
+                    <span class="stat-label" data-i18n="unlockedCount">Desbloqueados</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-total">0</span>
+                    <span class="stat-label" data-i18n="totalCount">Total</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-games">0</span>
+                    <span class="stat-label" data-i18n="gamesPlayed">Partidas</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-streak">0</span>
+                    <span class="stat-label" data-i18n="bestStreak">Mejor racha</span>
+                </div>
+            </div>
+
+            <div id="achievements-content" class="achievements-grid"></div>
+
+            <button id="btn-reset-achievements" class="btn-secondary" style="color: #ff4444; margin-top: 20px;" data-i18n="resetAchievements">🗑️ Borrar logros</button>
+        </section>
+
+    </main>
+
+    <div id="achievement-toast-container" class="achievement-toast-container"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/questions.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/fichas.js"></script>
+    <script src="js/progress.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/ranking.js"></script>
+    <script src="js/sounds.js"></script>
+    <script src="js/share.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/chatbot.js"></script>
+
+    <!-- Registro del Service Worker (PWA offline) -->
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('✅ Service Worker registrado'))
+          .catch(err => console.log('❌ Error SW:', err));
+      });
+    }
+    </script>
+</body>
+</html>

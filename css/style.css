@@ -1,0 +1,1016 @@
+/* ============================================================
+   PIXEL VOCACIONAL – TEMA POKÉMON ROJO FUEGO (OFFLINE)
+   ============================================================ */
+
+/* --- Carga de fuentes locales (sin internet) --- */
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('../fonts/PressStart2P-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('../fonts/Silkscreen-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('../fonts/Silkscreen-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- VARIABLES DE COLOR (tema oscuro por defecto) --- */
+:root {
+  --bg-primary: #2b1e10;
+  --bg-secondary: #3e2e1a;
+  --accent-red: #ff5050;
+  --accent-orange: #ff8c00;
+  --accent-yellow: #ffcc00;
+  --accent-strong-red: #cc0000;
+  --text-primary: #f0e6d2;
+  --text-dark: #2b1e10;
+  --border-pixel: #6b4f32;
+}
+
+/* --- TEMA CLARO (se activa con .light-theme) --- */
+.light-theme {
+  --bg-primary: #f8f0e0;
+  --bg-secondary: #fff8f0;
+  --accent-red: #cc0000;
+  --accent-orange: #e65c00;
+  --accent-yellow: #ccaa00;
+  --accent-strong-red: #b30000;
+  --text-primary: #2b2b2b;
+  --text-dark: #fff8f0;
+  --border-pixel: #999;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  background-image: url('https://i.postimg.cc/xCcJ61sJ/fondo-login-png.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+  image-rendering: pixelated;
+  transition: color 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+
+h1 { font-size: 1.8rem; color: var(--accent-yellow); }
+h2 { font-size: 1.4rem; color: var(--accent-red); }
+h3 { font-size: 1.1rem; color: var(--accent-orange); }
+
+/* --- BARRA DE NAVEGACIÓN --- */
+.navigation-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  max-width: 900px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lang-container {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-lang, #btn-theme-toggle {
+  background: var(--bg-secondary);
+  border: 3px solid var(--accent-red);
+  color: var(--accent-red);
+  padding: 6px 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #000;
+  transition: all 0.1s;
+}
+.btn-lang:hover, #btn-theme-toggle:hover {
+  background: var(--accent-red);
+  color: var(--text-dark);
+  box-shadow: 2px 2px 0 #000;
+}
+.btn-lang.active {
+  background: var(--accent-red);
+  color: var(--text-dark);
+  box-shadow: none;
+}
+
+.btn-back-global {
+  background: var(--bg-secondary);
+  border: 3px solid var(--accent-orange);
+  color: var(--accent-orange);
+  padding: 8px 15px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.1s;
+}
+.btn-back-global:hover {
+  background: var(--accent-orange);
+  color: var(--text-dark);
+}
+
+/* --- CONTENEDOR PRINCIPAL --- */
+.app-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  flex-grow: 1;
+}
+
+/* --- CAJAS (VISTAS) --- */
+.view-box {
+  background: var(--bg-secondary);
+  border: 4px solid var(--border-pixel);
+  box-shadow: 
+    inset 0 0 0 2px rgba(255,80,80,0.15),
+    6px 6px 0 #000;
+  padding: 30px;
+  width: 100%;
+  margin-bottom: 20px;
+  image-rendering: pixelated;
+}
+
+.hidden { display: none !important; }
+
+/* --- TÍTULOS Y DESCRIPCIONES --- */
+.view-description {
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.9rem;
+  color: var(--accent-orange);
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* --- FORMULARIOS --- */
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-red);
+  margin-bottom: 8px;
+}
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-red);
+  color: var(--text-primary);
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.9rem;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.pass-hint {
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-orange);
+  margin-top: 6px;
+  opacity: 0.85;
+}
+
+/* --- BOTONES PRINCIPALES --- */
+.btn-main, .btn-main-action {
+  width: 100%;
+  background: var(--accent-red);
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  padding: 14px;
+  border: none;
+  border: 3px solid #b30000;
+  box-shadow: 4px 4px 0 #000;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.1s;
+}
+.btn-main:hover, .btn-main-action:hover {
+  background: #ff7777;
+  box-shadow: 2px 2px 0 #000;
+  transform: translate(2px, 2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent-yellow);
+  border: none;
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.btn-secondary-action {
+  width: 100%;
+  background: var(--accent-orange);
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  padding: 14px;
+  border: 3px solid #cc5200;
+  box-shadow: 4px 4px 0 #000;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.1s;
+}
+.btn-secondary-action:hover {
+  background: #ffaa44;
+  box-shadow: 2px 2px 0 #000;
+  transform: translate(2px,2px);
+}
+
+/* --- GRID DE ÁREAS Y DIFICULTAD --- */
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-area, .btn-diff {
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-red);
+  color: var(--accent-red);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  padding: 15px 10px;
+  box-shadow: 3px 3px 0 #000;
+  cursor: pointer;
+  transition: 0.1s;
+  text-align: center;
+}
+.btn-area:hover, .btn-diff:hover {
+  background: var(--accent-red);
+  color: #fff;
+  box-shadow: 2px 2px 0 #000;
+  transform: translate(1px,1px);
+}
+.btn-area.active, .btn-diff.btn-active {
+  background: var(--accent-red);
+  color: #fff;
+  box-shadow: 0 0 10px var(--accent-red);
+}
+
+.difficulty-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.btn-diff {
+  flex: 1;
+}
+
+/* --- FICHAS TÉCNICAS --- */
+.btn-group-sheets {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.btn-sheet-select {
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-orange);
+  color: var(--accent-orange);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  padding: 8px 12px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #000;
+  transition: 0.1s;
+}
+.btn-sheet-select:hover {
+  background: var(--accent-orange);
+  color: #fff;
+}
+.btn-sheet-select.active {
+  background: var(--accent-orange);
+  color: #fff;
+  box-shadow: 0 0 10px var(--accent-orange);
+}
+
+.ficha-layout-custom {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-red);
+  padding: 25px;
+  margin-top: 20px;
+  box-shadow: 5px 5px 0 #000;
+}
+.ficha-avatar-side {
+  width: 185px;
+  height: 185px;
+  image-rendering: pixelated;
+  border: 3px solid var(--accent-yellow);
+  object-fit: cover;
+}
+
+.ficha-text-content {
+  flex: 1;
+  font-family: 'Silkscreen', monospace;
+  color: var(--text-primary);
+}
+.ficha-text-content p {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+.ficha-text-content h2 {
+  color: var(--accent-yellow);
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* --- TRIVIA --- */
+.game-top-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: center;
+  background: var(--bg-primary);
+  padding: 15px;
+  border: 3px solid var(--accent-red);
+  box-shadow: 3px 3px 0 #000;
+}
+.game-avatar-render {
+  width: 185px;
+  height: 185px;
+  image-rendering: pixelated;
+  border: 3px solid var(--accent-yellow);
+  object-fit: cover;
+}
+
+.indicator-box {
+  background: var(--bg-secondary);
+  border: 2px solid var(--accent-yellow);
+  padding: 8px 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-yellow);
+  margin-bottom: 8px;
+}
+
+#question-counter {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-orange);
+  text-shadow: 1px 1px 0 #000;
+}
+
+.question-container h2 {
+  font-size: 1.2rem;
+  color: var(--accent-red);
+  margin-bottom: 20px;
+}
+
+.options-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-option {
+  padding: 15px;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-orange);
+  color: var(--text-primary);
+  font-family: 'Silkscreen', monospace;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #000;
+  transition: 0.1s;
+}
+.btn-option:hover {
+  background: var(--accent-orange);
+  color: #fff;
+  border-color: var(--accent-strong-red);
+  transform: translate(1px,1px);
+}
+
+.screen-flash-correct {
+  animation: flashGreen 0.3s;
+}
+.screen-flash-wrong {
+  animation: flashRed 0.3s;
+}
+
+@keyframes flashGreen {
+  0% { background-color: rgba(0,200,0,0.3); }
+  100% { background-color: transparent; }
+}
+@keyframes flashRed {
+  0% { background-color: rgba(255,0,0,0.3); }
+  100% { background-color: transparent; }
+}
+
+.feedback-card {
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--bg-primary);
+  border-left: 5px solid var(--accent-yellow);
+  box-shadow: 3px 3px 0 #000;
+}
+.feedback-card h3 {
+  color: var(--accent-yellow);
+  margin-bottom: 10px;
+}
+.feedback-card p {
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+/* --- TOASTS --- */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.toast-bubble {
+  padding: 15px;
+  background: var(--bg-secondary);
+  border: 3px solid;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  box-shadow: 4px 4px 0 #000;
+  color: var(--text-primary);
+}
+.toast-error {
+  border-color: #ff4444;
+  background: #4a0000;
+}
+.toast-success {
+  border-color: #00cc66;
+  background: #004400;
+}
+.toast-warning {
+  border-color: var(--accent-yellow);
+  background: #444400;
+}
+
+/* --- INFORME --- */
+.report-grid {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.report-chart, .report-verdict {
+  flex: 1;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-red);
+  padding: 20px;
+  box-shadow: 4px 4px 0 #000;
+}
+.report-chart h3, .report-verdict h3 {
+  color: var(--accent-orange);
+  margin-bottom: 15px;
+}
+.report-chart div {
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+/* --- LINK DE CAMBIO LOGIN/REGISTRO --- */
+.auth-switch-link {
+  color: var(--accent-yellow);
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.auth-switch-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+  .ficha-layout-custom {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ficha-avatar-side {
+    width: 150px;
+    height: 150px;
+  }
+  .game-avatar-render {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* --- WRAPPER PARA CONTRASEÑA CON BOTÓN DE OJO --- */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 50px !important;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 5px;
+  background: transparent;
+  border: 2px solid var(--accent-orange);
+  color: var(--text-primary);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 5px 8px;
+  box-shadow: 2px 2px 0 #000;
+  line-height: 1;
+  transition: 0.1s;
+}
+.toggle-password:hover {
+  background: var(--accent-orange);
+  color: var(--text-dark);
+}
+
+/* ============================================================
+   PANEL DE PROGRESO
+   ============================================================ */
+.progress-panel {
+  margin-top: 25px;
+  padding: 20px;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-yellow);
+  box-shadow: 4px 4px 0 #000;
+}
+
+.progress-panel h3 {
+  color: var(--accent-yellow);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.progress-panel h4 {
+  color: var(--accent-orange);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.65rem;
+  margin-bottom: 10px;
+}
+
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-pixel);
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.progress-item span {
+  color: var(--accent-orange);
+}
+
+#report-best {
+  font-family: 'Silkscreen', monospace;
+  color: var(--accent-yellow);
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   AUTOCOMPLETADO DE CORREO ELECTRÓNICO
+   ============================================================ */
+.email-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 3px solid var(--accent-orange);
+  box-shadow: 4px 4px 0 #000;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+.email-suggestion-item {
+  padding: 10px 15px;
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-pixel);
+  transition: background 0.1s;
+}
+
+.email-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.email-suggestion-item:hover {
+  background: var(--accent-orange);
+  color: #fff;
+}
+
+/* Botón de reenvío */
+#resend-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#btn-resend-code:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* ============================================================
+   RANKING
+   ============================================================ */
+.ranking-section {
+  margin-bottom: 25px;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-orange);
+  padding: 20px;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.ranking-section h3 {
+  color: var(--accent-orange);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.ranking-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-pixel);
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+
+.ranking-row.first {
+  border-color: #ffdd00;
+  box-shadow: 0 0 15px rgba(255, 221, 0, 0.5);
+}
+
+.ranking-row.first::before {
+  content: '🥇 ';
+}
+
+.ranking-row.second::before {
+  content: '🥈 ';
+}
+
+.ranking-row.third::before {
+  content: '🥉 ';
+}
+
+.ranking-row .user-name {
+  color: var(--accent-yellow);
+  font-weight: bold;
+}
+
+.ranking-row .score {
+  color: var(--accent-orange);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+}
+
+/* ============================================================
+   BOTONES DE COMPARTIR
+   ============================================================ */
+.share-buttons {
+  margin-top: 25px;
+  padding: 20px;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-yellow);
+  box-shadow: 4px 4px 0 #000;
+  text-align: center;
+}
+
+.share-buttons h3 {
+  color: var(--accent-yellow);
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.btn-share {
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 5px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.65rem;
+  color: #fff;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.btn-share:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+.btn-whatsapp {
+  background: #25d366;
+}
+
+.btn-twitter {
+  background: #1da1f2;
+}
+
+.btn-copy {
+  background: var(--accent-orange);
+}
+
+/* ============================================================
+   BOTÓN DE SONIDO
+   ============================================================ */
+#btn-sound-toggle.muted {
+  opacity: 0.5;
+}
+
+/* ============================================================
+   TRANSICIONES SUAVES
+   ============================================================ */
+.view-box:not(.hidden) {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-area, .btn-diff, .btn-sheet-select, .btn-option {
+  transition: all 0.15s ease;
+}
+
+/* ============================================================
+   LOGROS (ACHIEVEMENTS) - Estilo Steam/Xbox pixel art
+   ============================================================ */
+
+/* --- Grid de tarjetas de logros --- */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+/* --- Tarjeta individual de logro --- */
+.achievement-card {
+  position: relative;
+  background: var(--bg-primary);
+  border: 3px solid var(--border-pixel);
+  box-shadow: 3px 3px 0 #000;
+  padding: 20px 15px;
+  text-align: center;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+.achievement-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #000;
+}
+
+/* Logro desbloqueado: borde dorado + brillo pulsante */
+.achievement-card.unlocked {
+  border-color: #ffdd00;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(255, 221, 0, 0.08) 100%);
+  animation: achievementGlow 2s ease-in-out infinite;
+}
+
+/* Logro bloqueado: apagado y en blanco y negro */
+.achievement-card.locked {
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
+
+/* --- Elementos internos de la tarjeta --- */
+.achievement-card .achievement-emoji {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  line-height: 1;
+  display: block;
+}
+
+.achievement-card .achievement-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: #ffdd00;
+  text-shadow: 2px 2px 0 #000;
+  line-height: 1.5;
+}
+
+.achievement-card .achievement-desc {
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.75rem;
+  margin-top: 8px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.achievement-card .achievement-lock {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+}
+
+/* --- Cajas de estadísticas superiores --- */
+.achievements-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-box {
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-orange);
+  box-shadow: 3px 3px 0 #000;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-number {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.5rem;
+  color: var(--accent-yellow);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.stat-label {
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-orange);
+}
+
+/* --- Contenedor de notificaciones (toasts) de logros --- */
+.achievement-toast-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* --- Toast individual de "¡LOGRO DESBLOQUEADO!" --- */
+.achievement-toast {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #1a1208;
+  border: 3px solid #ffdd00;
+  box-shadow: 0 0 20px rgba(255, 221, 0, 0.7), 4px 4px 0 #000;
+  padding: 15px 20px;
+  min-width: 260px;
+  animation: slideInRight 0.4s ease-out;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.achievement-toast .achievement-toast-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+  animation: achievementPop 0.6s ease-out;
+}
+
+.achievement-toast .achievement-toast-title {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  color: #ffdd00;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.achievement-toast .achievement-toast-name {
+  display: block;
+  font-family: 'Silkscreen', monospace;
+  font-size: 0.85rem;
+  color: #fff;
+  margin-top: 6px;
+}
+
+/* Clase aplicada justo antes de eliminar el toast */
+.achievement-toast.fade-out {
+  opacity: 0;
+  transform: translateX(400px);
+}
+
+/* --- Animaciones --- */
+@keyframes slideInRight {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Pulso dorado para logros recién desbloqueados */
+@keyframes achievementGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(255, 221, 0, 0.4), 3px 3px 0 #000;
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(255, 221, 0, 0.9), 3px 3px 0 #000;
+  }
+}
+
+/* Rebote de entrada del emoji del toast */
+@keyframes achievementPop {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* --- Responsive de logros --- */
+@media (max-width: 600px) {
+  .achievements-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .achievement-toast {
+    min-width: 200px;
+    padding: 12px 15px;
+  }
+}

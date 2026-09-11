@@ -1,0 +1,26 @@
+[
+    {
+        "carrera": "Informática",
+        "pregunta": "¿Qué protocolo se utiliza para transferir archivos de forma segura?",
+        "opciones": ["HTTP", "FTP", "SFTP", "DHCP"],
+        "correcta": "SFTP",
+        "explicacion": "SFTP (Secure File Transfer Protocol) utiliza SSH para cifrar la transferencia de datos.",
+        "emoji": "🔐"
+    },
+    {
+        "carrera": "Contaduría",
+        "pregunta": "¿Qué estado financiero muestra la situación de la empresa en una fecha determinada?",
+        "opciones": ["Estado de Resultados", "Flujo de Caja", "Balance General", "Libro de Inventario"],
+        "correcta": "Balance General",
+        "explicacion": "El Balance General resume los activos, pasivos y el patrimonio de la entidad.",
+        "emoji": "📈"
+    },
+    {
+        "carrera": "Institucional",
+        "pregunta": "¿En qué año se transformó el IUT la Victoria en UPTA Aragua?",
+        "opciones": ["2005", "2010", "2012", "2014"],
+        "correcta": "2012",
+        "explicacion": "En 2012, mediante decreto presidencial, nacen las Universidades Politécnicas Territoriales.",
+        "emoji": "🏫"
+    }
+]
