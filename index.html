@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Orientación Vocacional - UPTA</title>
     <link rel="stylesheet" href="css/style.css">
-
-    <!-- PWA: manifest y metadatos de instalación -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#cc0000">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PixelVoc">
@@ -33,8 +32,38 @@
 
     <main class="app-container">
 
+        <!-- BIENVENIDA -->
+        <section id="screen-welcome" class="view-box">
+            <h1 class="welcome-title" data-i18n="welcomeTitle">¡BIENVENIDO A TU AVENTURA VOCACIONAL!</h1>
+            
+            <div class="welcome-mission">
+                <p><strong data-i18n="welcomeMission">🎓 Misión:</strong> <span data-i18n="welcomeMissionText">U.E.N. "Víctor Ángel Hernández" (Turmero, Edo. Aragua)</span></p>
+                <p><strong data-i18n="welcomeObjective">🎯 Objetivo:</strong> <span data-i18n="welcomeObjectiveText">Explorar las especialidades del futuro y descubrir tu verdadera vocación.</span></p>
+            </div>
+            
+            <blockquote class="welcome-quote" data-i18n="welcomeQuote">
+                "La transición a la universidad es el reto más importante de tu etapa escolar. Esta plataforma fue diseñada para que dejes de ser un espectador y te conviertas en el protagonista de tu futuro. Supera los desafíos, pon a prueba tus conocimientos en Informática, Contaduría, Mecánica, Electricidad y Telecomunicaciones, y descubre cuál es la carrera ideal para ti."
+            </blockquote>
+            
+            <h3 class="welcome-gallery-title" data-i18n="welcomeGalleryTitle">✨ Nuestro Futuro ✨</h3>
+            
+            <div class="welcome-gallery">
+                <div class="welcome-image-card">
+                    <img src="https://i.postimg.cc/87zkwq5F/Whats-App-Image-2026-09-11-at-1-00-52-PM.jpg" alt="Nuestro Liceo">
+                </div>
+                <div class="welcome-image-card">
+                    <img src="https://i.postimg.cc/bZwYLKJb/Whats-App-Image-2026-09-11-at-12-54-15-PM.jpg" alt="Nuestros Estudiantes">
+                </div>
+                <div class="welcome-image-card">
+                    <img src="https://i.postimg.cc/21SjTP6W/Whats-App-Image-2026-09-11-at-12-54-18-PM.jpg" alt="Nuestro Futuro">
+                </div>
+            </div>
+            
+            <button id="btn-start-adventure" class="btn-main-action" data-i18n="startAdventureBtn">🚀 COMENZAR MI AVENTURA</button>
+        </section>
+
         <!-- LOGIN -->
-        <section id="screen-login" class="view-box">
+        <section id="screen-login" class="view-box hidden">
             <h1 data-i18n="loginTitle">INICIAR SESIÓN</h1>
             <p class="view-description" data-i18n="loginDesc">Ingresa al sistema para registrar tus estadísticas vocacionales.</p>
             
@@ -58,6 +87,9 @@
             </div>
             <div style="text-align: center; margin-top: 10px;">
                 <a href="#" id="link-to-recover" class="auth-switch-link" style="font-size: 0.8rem;" data-i18n="recoverLink">¿Olvidaste tu contraseña?</a>
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="#" id="link-back-to-welcome" class="auth-switch-link" style="font-size: 0.8rem;" data-i18n="backToWelcome">← Volver a la bienvenida</a>
             </div>
         </section>
 
@@ -134,33 +166,32 @@
             <div class="config-section">
                 <h3 data-i18n="difficultyLabel">Dificultad del Desafío:</h3>
                 <div class="btn-group difficulty-group">
-                    <button id="btn-diff-easy" class="btn-diff btn-active" data-diff="easy">Fácil (30s)</button>
-                    <button id="btn-diff-medium" class="btn-diff" data-diff="medium">Medio (20s)</button>
-                    <button id="btn-diff-hard" class="btn-diff" data-diff="hard">Difícil (10s)</button>
+                    <button id="btn-diff-easy" class="btn-diff btn-active" data-diff="easy" data-i18n="diffEasy">Fácil (30s)</button>
+                    <button id="btn-diff-medium" class="btn-diff" data-diff="medium" data-i18n="diffMedium">Medio (20s)</button>
+                    <button id="btn-diff-hard" class="btn-diff" data-diff="hard" data-i18n="diffHard">Difícil (10s)</button>
                 </div>
             </div>
 
             <div class="config-section">
                 <h3 data-i18n="areasLabel">Especialidades Técnicas (Selección Múltiple):</h3>
                 <div class="areas-grid">
-                    <button class="btn-area" data-area="informatica">💻 Informática</button>
-                    <button class="btn-area" data-area="telecomunicaciones">📡 Telecom</button>
-                    <button class="btn-area" data-area="mecanica">⚙️ Mecánica</button>
-                    <button class="btn-area" data-area="electricidad">⚡ Electricidad</button>
-                    <button class="btn-area" data-area="contaduria">📊 Contaduría</button>
+                    <button class="btn-area" data-area="informatica" data-i18n="areaInformatica">💻 Informática</button>
+                    <button class="btn-area" data-area="telecomunicaciones" data-i18n="areaTelecom">📡 Telecom</button>
+                    <button class="btn-area" data-area="mecanica" data-i18n="areaMecanica">⚙️ Mecánica</button>
+                    <button class="btn-area" data-area="electricidad" data-i18n="areaElectricidad">⚡ Electricidad</button>
+                    <button class="btn-area" data-area="contaduria" data-i18n="areaContaduria">📊 Contaduría</button>
                 </div>
             </div>
 
             <div class="actions-row">
                 <button id="btn-start-trivia" class="btn-main-action" data-i18n="startTriviaBtn">INICIAR TRIVIA</button>
-                <button id="btn-practice-mode" class="btn-secondary-action" data-i18n="practiceBtn">MODO PRÁCTICA</button>
+                <button id="btn-practice-mode" class="btn-secondary-action" data-i18n="practiceBtn">🎯 MODO PRÁCTICA</button>
                 <button id="btn-view-sheets" class="btn-secondary-action" data-i18n="viewSheetsBtn">FICHAS ACADÉMICAS</button>
                 <button id="btn-view-ranking" class="btn-secondary-action" data-i18n="rankingBtn">🏆 RANKING</button>
                 <button id="btn-view-achievements" class="btn-secondary-action" data-i18n="achievementsBtn">🏅 LOGROS</button>
                 <button id="btn-install-pwa" class="btn-secondary-action hidden" data-i18n="installAppBtn">📲 INSTALAR APP</button>
             </div>
 
-            <!-- PANEL DE PROGRESO -->
             <div class="progress-panel">
                 <h3 data-i18n="progressTitle">📊 TU PROGRESO</h3>
                 <div id="progress-content">
@@ -181,21 +212,47 @@
             <button id="btn-clear-ranking" class="btn-secondary" style="color: #ff4444; margin-top: 20px;" data-i18n="clearRanking">🗑️ Borrar ranking</button>
         </section>
 
+        <!-- LOGROS -->
+        <section id="screen-achievements" class="view-box hidden">
+            <h1 data-i18n="achievementsTitle">🏅 LOGROS</h1>
+            <p class="view-description" data-i18n="achievementsDesc">Desbloquea logros mientras juegas y demuestra tu dominio.</p>
+            <div class="achievements-stats">
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-unlocked">0</span>
+                    <span class="stat-label" data-i18n="unlockedCount">Desbloqueados</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-total">0</span>
+                    <span class="stat-label" data-i18n="totalCount">Total</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-games">0</span>
+                    <span class="stat-label" data-i18n="gamesPlayed">Partidas</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="achievements-streak">0</span>
+                    <span class="stat-label" data-i18n="bestStreak">Mejor racha</span>
+                </div>
+            </div>
+            <div id="achievements-content" class="achievements-grid"></div>
+            <button id="btn-reset-achievements" class="btn-secondary" style="color: #ff4444; margin-top: 20px;" data-i18n="resetAchievements">🗑️ Borrar logros</button>
+        </section>
+
         <!-- FICHAS -->
         <section id="screen-sheets" class="view-box hidden">
             <h1 data-i18n="sheetsTitle">FICHAS TÉCNICAS ACADÉMICAS</h1>
             <p class="view-description" data-i18n="sheetsDesc">Explora los perfiles de egreso de las áreas universitarias.</p>
             
             <div class="btn-group-sheets">
-                <button class="btn-sheet-select active" data-sheet="informatica">Informática</button>
-                <button class="btn-sheet-select" data-sheet="telecomunicaciones">Telecom</button>
-                <button class="btn-sheet-select" data-sheet="mecanica">Mecánica</button>
-                <button class="btn-sheet-select" data-sheet="electricidad">Electricidad</button>
-                <button class="btn-sheet-select" data-sheet="contaduria">Contaduría</button>
+                <button class="btn-sheet-select active" data-sheet="informatica" data-i18n="areaInformatica">Informática</button>
+                <button class="btn-sheet-select" data-sheet="telecomunicaciones" data-i18n="areaTelecom">Telecom</button>
+                <button class="btn-sheet-select" data-sheet="mecanica" data-i18n="areaMecanica">Mecánica</button>
+                <button class="btn-sheet-select" data-sheet="electricidad" data-i18n="areaElectricidad">Electricidad</button>
+                <button class="btn-sheet-select" data-sheet="contaduria" data-i18n="areaContaduria">Contaduría</button>
             </div>
 
             <div class="ficha-layout-custom">
-                <img id="ficha-avatar-img" src="assets/avatars/avatar_informatica_lado.png" alt="Avatar Perfil" class="ficha-avatar-side">
+                <img id="ficha-avatar-img" src="" alt="Avatar Perfil" class="ficha-avatar-side">
                 <div class="ficha-text-content">
                     <h2 id="sheet-title-display">PNF en Informática</h2>
                     <p id="sheet-body-display">Cargando datos...</p>
@@ -207,7 +264,7 @@
         <section id="screen-game" class="view-box hidden">
             <div class="game-top-bar">
                 <div class="avatar-container-box">
-                    <img id="game-avatar-img" src="assets/avatars/avatar_informatica_idle.png" alt="Avatar Especialidad" class="game-avatar-render">
+                    <img id="game-avatar-img" src="" alt="Avatar Especialidad" class="game-avatar-render">
                 </div>
                 <div class="game-indicators">
                     <div class="indicator-box">
@@ -259,35 +316,6 @@
             <button id="btn-finish-report" class="btn-main-action" data-i18n="backMenuBtn">VOLVER AL PANEL</button>
         </section>
 
-        <!-- LOGROS -->
-        <section id="screen-achievements" class="view-box hidden">
-            <h1 data-i18n="achievementsTitle">🏅 LOGROS</h1>
-            <p class="view-description" data-i18n="achievementsDesc">Desbloquea logros mientras juegas y demuestra tu dominio.</p>
-
-            <div class="achievements-stats">
-                <div class="stat-box">
-                    <span class="stat-number" id="achievements-unlocked">0</span>
-                    <span class="stat-label" data-i18n="unlockedCount">Desbloqueados</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-number" id="achievements-total">0</span>
-                    <span class="stat-label" data-i18n="totalCount">Total</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-number" id="achievements-games">0</span>
-                    <span class="stat-label" data-i18n="gamesPlayed">Partidas</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-number" id="achievements-streak">0</span>
-                    <span class="stat-label" data-i18n="bestStreak">Mejor racha</span>
-                </div>
-            </div>
-
-            <div id="achievements-content" class="achievements-grid"></div>
-
-            <button id="btn-reset-achievements" class="btn-secondary" style="color: #ff4444; margin-top: 20px;" data-i18n="resetAchievements">🗑️ Borrar logros</button>
-        </section>
-
     </main>
 
     <div id="achievement-toast-container" class="achievement-toast-container"></div>
@@ -297,14 +325,12 @@
     <script src="js/auth.js"></script>
     <script src="js/fichas.js"></script>
     <script src="js/progress.js"></script>
-    <script src="js/achievements.js"></script>
     <script src="js/ranking.js"></script>
     <script src="js/sounds.js"></script>
     <script src="js/share.js"></script>
+    <script src="js/achievements.js"></script>
     <script src="js/app.js"></script>
     <script src="js/chatbot.js"></script>
-
-    <!-- Registro del Service Worker (PWA offline) -->
     <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

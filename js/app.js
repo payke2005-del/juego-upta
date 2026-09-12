@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const TOTAL_QUESTIONS = 11;
 
   // Control de racha (para logros) y tiempo de partida
-  let currentStreak = 0;      // Aciertos consecutivos actuales
-  let maxStreakThisGame = 0;  // Mejor racha alcanzada en esta partida
-  let gameStartTime = null;   // Marca de tiempo para medir duración (logro de velocidad)
+  let currentStreak = 0;
+  let maxStreakThisGame = 0;
+  let gameStartTime = null;
 
   // --- DICCIONARIO DE INTERFAZ ---
   const i18n = {
@@ -126,6 +126,23 @@ document.addEventListener('DOMContentLoaded', () => {
       achievementUnlocked: '¡LOGRO DESBLOQUEADO!',
       confirmResetAchievements: '¿Borrar todos tus logros?',
       installAppBtn: '📲 INSTALAR APP',
+      welcomeTitle: '¡BIENVENIDO A TU AVENTURA VOCACIONAL!',
+      welcomeMission: '🎓 Misión:',
+      welcomeMissionText: 'U.E.N. "Víctor Ángel Hernández" (Turmero, Edo. Aragua)',
+      welcomeObjective: '🎯 Objetivo:',
+      welcomeObjectiveText: 'Explorar las especialidades del futuro y descubrir tu verdadera vocación.',
+      welcomeQuote: 'La transición a la universidad es el reto más importante de tu etapa escolar. Esta plataforma fue diseñada para que dejes de ser un espectador y te conviertas en el protagonista de tu futuro. Supera los desafíos, pon a prueba tus conocimientos en Informática, Contaduría, Mecánica, Electricidad y Telecomunicaciones, y descubre cuál es la carrera ideal para ti.',
+      welcomeGalleryTitle: '✨ Nuestro Futuro ✨',
+      startAdventureBtn: '🚀 COMENZAR MI AVENTURA',
+      backToWelcome: '← Volver a la bienvenida',
+      diffEasy: 'Fácil (30s)',
+      diffMedium: 'Medio (20s)',
+      diffHard: 'Difícil (10s)',
+      areaInformatica: '💻 Informática',
+      areaTelecom: '📡 Telecom',
+      areaMecanica: '⚙️ Mecánica',
+      areaElectricidad: '⚡ Electricidad',
+      areaContaduria: '📊 Contaduría',
     },
     en: {
       backBtn: 'Back',
@@ -195,6 +212,23 @@ document.addEventListener('DOMContentLoaded', () => {
       achievementUnlocked: 'ACHIEVEMENT UNLOCKED!',
       confirmResetAchievements: 'Clear all your achievements?',
       installAppBtn: '📲 INSTALL APP',
+      welcomeTitle: 'WELCOME TO YOUR VOCATIONAL ADVENTURE!',
+      welcomeMission: '🎓 Mission:',
+      welcomeMissionText: 'U.E.N. "Víctor Ángel Hernández" High School (Turmero, Aragua State)',
+      welcomeObjective: '🎯 Objective:',
+      welcomeObjectiveText: 'Explore the specialties of the future and discover your true vocation.',
+      welcomeQuote: 'The transition to university is the most important challenge of your school stage. This platform was designed so you stop being a spectator and become the protagonist of your future. Overcome challenges, test your knowledge in Computer Science, Accounting, Mechanics, Electrical and Telecommunications, and discover which is the ideal career for you.',
+      welcomeGalleryTitle: '✨ Our Future ✨',
+      startAdventureBtn: '🚀 START MY ADVENTURE',
+      backToWelcome: '← Back to welcome',
+      diffEasy: 'Easy (30s)',
+      diffMedium: 'Medium (20s)',
+      diffHard: 'Hard (10s)',
+      areaInformatica: '💻 Computer Science',
+      areaTelecom: '📡 Telecom',
+      areaMecanica: '⚙️ Mechanics',
+      areaElectricidad: '⚡ Electrical',
+      areaContaduria: '📊 Accounting',
     }
   };
 
@@ -219,18 +253,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target) target.classList.remove('hidden');
 
     const backBtn = document.getElementById('btn-global-back');
-    if (viewId === 'screen-login' || viewId === 'screen-register' || viewId === 'screen-recover') {
+    
+    if (viewId === 'screen-welcome' || viewId === 'screen-register' || viewId === 'screen-recover') {
       backBtn.classList.add('hidden');
+    } else if (viewId === 'screen-login') {
+      backBtn.classList.remove('hidden');
+      const backSpan = backBtn.querySelector('[data-i18n]');
+      if (backSpan) backSpan.innerText = i18n[currentLanguage].backBtn;
+      backBtn.onclick = () => showView('screen-welcome');
     } else {
       backBtn.classList.remove('hidden');
       const backSpan = backBtn.querySelector('[data-i18n]');
       if (backSpan) backSpan.innerText = i18n[currentLanguage].backBtn;
+      backBtn.onclick = defaultBackBehavior;
     }
 
     if (viewId === 'screen-game') {
       backBtn.onclick = abandonGame;
-    } else {
-      backBtn.onclick = defaultBackBehavior;
     }
   }
 
@@ -265,6 +304,25 @@ document.addEventListener('DOMContentLoaded', () => {
     translateUI();
     refreshDynamicContent();
   });
+
+  // --- PANTALLA DE BIENVENIDA ---
+  const startAdventureBtn = document.getElementById('btn-start-adventure');
+  if (startAdventureBtn) {
+    startAdventureBtn.addEventListener('click', () => {
+      if (typeof SoundSystem !== 'undefined') SoundSystem.play('start');
+      showView('screen-login');
+    });
+  }
+
+  // --- BOTÓN VOLVER A LA BIENVENIDA DESDE EL LOGIN ---
+  const backToWelcomeLink = document.getElementById('link-back-to-welcome');
+  if (backToWelcomeLink) {
+    backToWelcomeLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof SoundSystem !== 'undefined') SoundSystem.play('click');
+      showView('screen-welcome');
+    });
+  }
 
   function refreshDynamicContent() {
     if (!document.getElementById('screen-game').classList.contains('hidden')) {
@@ -331,30 +389,39 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- MODO PRÁCTICA ---
-  document.getElementById('btn-practice-mode').addEventListener('click', () => {
-    if (typeof SoundSystem !== 'undefined') SoundSystem.play('start');
-    if (selectedAreas.length === 0) {
-      alert(i18n[currentLanguage].noAreas);
-      return;
-    }
-    practiceMode = true;
-    startTrivia();
-  });
+  const practiceBtn = document.getElementById('btn-practice-mode');
+  if (practiceBtn) {
+    practiceBtn.addEventListener('click', () => {
+      if (typeof SoundSystem !== 'undefined') SoundSystem.play('start');
+      if (selectedAreas.length === 0) {
+        alert(i18n[currentLanguage].noAreas);
+        return;
+      }
+      practiceMode = true;
+      startTrivia();
+    });
+  }
 
   // --- VER RANKING ---
-  document.getElementById('btn-view-ranking').addEventListener('click', () => {
-    if (typeof SoundSystem !== 'undefined') SoundSystem.play('click');
-    showView('screen-ranking');
-    renderRanking();
-  });
+  const rankingBtn = document.getElementById('btn-view-ranking');
+  if (rankingBtn) {
+    rankingBtn.addEventListener('click', () => {
+      if (typeof SoundSystem !== 'undefined') SoundSystem.play('click');
+      showView('screen-ranking');
+      renderRanking();
+    });
+  }
 
   // --- BORRAR RANKING ---
-  document.getElementById('btn-clear-ranking').addEventListener('click', () => {
-    if (confirm('¿Borrar el ranking? Esta acción no se puede deshacer.')) {
-      RankingSystem.clearRanking();
-      renderRanking();
-    }
-  });
+  const clearRankingBtn = document.getElementById('btn-clear-ranking');
+  if (clearRankingBtn) {
+    clearRankingBtn.addEventListener('click', () => {
+      if (confirm('¿Borrar el ranking? Esta acción no se puede deshacer.')) {
+        RankingSystem.clearRanking();
+        renderRanking();
+      }
+    });
+  }
 
   function startTrivia() {
     const pool = [];
@@ -392,7 +459,6 @@ document.addEventListener('DOMContentLoaded', () => {
       areaPerformance[area] = { total: 0, correct: 0 };
     }
 
-    // Mostrar/ocultar indicador de práctica
     const practiceIndicator = document.getElementById('practice-indicator');
     if (practiceIndicator) {
       practiceIndicator.style.display = practiceMode ? 'block' : 'none';
@@ -596,11 +662,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!practiceMode) {
-      // Guardar en progreso
       if (typeof ProgressSystem !== 'undefined') {
         ProgressSystem.saveGame(sessionStats, currentScore, selectedAreas);
       }
-      // Guardar en ranking
       if (typeof RankingSystem !== 'undefined' && currentUser) {
         for (const [area, score] of Object.entries(sessionStats)) {
           if (score > 0) {
@@ -608,7 +672,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       }
-      // --- LOGROS: registrar partida, racha y evaluar condiciones ---
       if (typeof AchievementsSystem !== 'undefined') {
         AchievementsSystem.incrementGames();
         AchievementsSystem.updateBestStreak(maxStreakThisGame);
@@ -660,7 +723,6 @@ document.addEventListener('DOMContentLoaded', () => {
         : 'Could not calculate affinities. Try again.';
     }
 
-    // Mostrar mejor marca
     const existingBest = document.getElementById('report-best');
     if (existingBest) existingBest.remove();
 
@@ -679,7 +741,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Configurar botones de compartir
     setupShareButtons(maxArea, maxScore);
   }
 
@@ -782,26 +843,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- LOGROS ---
-  document.getElementById('btn-view-achievements').addEventListener('click', () => {
-    if (typeof SoundSystem !== 'undefined') SoundSystem.play('click');
-    showView('screen-achievements');
-    renderAchievements();
-  });
-
-  // Borrar todos los logros del usuario (con confirmación)
-  document.getElementById('btn-reset-achievements').addEventListener('click', () => {
-    if (confirm(i18n[currentLanguage].confirmResetAchievements)) {
-      AchievementsSystem.resetAchievements();
+  const achievementsBtn = document.getElementById('btn-view-achievements');
+  if (achievementsBtn) {
+    achievementsBtn.addEventListener('click', () => {
+      if (typeof SoundSystem !== 'undefined') SoundSystem.play('click');
+      showView('screen-achievements');
       renderAchievements();
-    }
-  });
+    });
+  }
 
-  // Cada vez que se desbloquea un logro, mostrar notificación emergente
+  const resetAchievementsBtn = document.getElementById('btn-reset-achievements');
+  if (resetAchievementsBtn) {
+    resetAchievementsBtn.addEventListener('click', () => {
+      if (confirm(i18n[currentLanguage].confirmResetAchievements)) {
+        AchievementsSystem.resetAchievements();
+        renderAchievements();
+      }
+    });
+  }
+
   window.addEventListener('achievementUnlocked', (e) => {
     showAchievementNotification(e.detail.achievement);
   });
 
-  // Renderiza la pantalla de logros: contadores superiores + tarjetas
   function renderAchievements() {
     const container = document.getElementById('achievements-content');
     if (!container || typeof AchievementsSystem === 'undefined') return;
@@ -809,13 +873,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const all = AchievementsSystem.getAll();
     const data = AchievementsSystem.getAchievements();
 
-    // Actualizar contadores de estadísticas
-    document.getElementById('achievements-unlocked').innerText = AchievementsSystem.getUnlockedCount();
-    document.getElementById('achievements-total').innerText = all.length;
-    document.getElementById('achievements-games').innerText = data.totalGames;
-    document.getElementById('achievements-streak').innerText = data.bestStreak;
+    const elUnlocked = document.getElementById('achievements-unlocked');
+    const elTotal = document.getElementById('achievements-total');
+    const elGames = document.getElementById('achievements-games');
+    const elStreak = document.getElementById('achievements-streak');
 
-    // Generar tarjetas: desbloqueadas = doradas con brillo, bloqueadas = grises con candado
+    if (elUnlocked) elUnlocked.innerText = AchievementsSystem.getUnlockedCount();
+    if (elTotal) elTotal.innerText = all.length;
+    if (elGames) elGames.innerText = data.totalGames;
+    if (elStreak) elStreak.innerText = data.bestStreak;
+
     container.innerHTML = all.map(a => {
       const name = a.name[currentLanguage] || a.name.es;
       const desc = a.desc[currentLanguage] || a.desc.es;
@@ -830,7 +897,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
   }
 
-  // Toast de "¡LOGRO DESBLOQUEADO!" en la esquina superior derecha
   function showAchievementNotification(logro) {
     const container = document.getElementById('achievement-toast-container');
     if (!container) return;
@@ -846,10 +912,8 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     container.appendChild(toast);
 
-    // Sonido especial de victoria
     if (typeof SoundSystem !== 'undefined') SoundSystem.play('win');
 
-    // Desvanecer y eliminar tras 4 segundos
     setTimeout(() => {
       toast.classList.add('fade-out');
       setTimeout(() => toast.remove(), 500);
@@ -907,8 +971,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- PWA: INSTALACIÓN ---
   let deferredPrompt = null;
 
-  // Chrome/Edge disparan 'beforeinstallprompt' cuando la app es instalable.
-  // Guardamos el evento y mostramos el botón de instalación en el panel.
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
@@ -916,19 +978,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btn) btn.classList.remove('hidden');
   });
 
-  // Al hacer clic en "INSTALAR APP", lanzar el prompt nativo del navegador
-  document.getElementById('btn-install-pwa').addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      console.log('👤 Usuario aceptó instalar Pixel Vocacional');
-    }
-    deferredPrompt = null;
-    document.getElementById('btn-install-pwa').classList.add('hidden');
-  });
+  const installBtn = document.getElementById('btn-install-pwa');
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('👤 Usuario aceptó instalar Pixel Vocacional');
+      }
+      deferredPrompt = null;
+      installBtn.classList.add('hidden');
+    });
+  }
 
-  // Confirmación cuando la app ya quedó instalada
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
     const btn = document.getElementById('btn-install-pwa');
@@ -937,6 +1000,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- INICIALIZACIÓN ---
-  showView('screen-login');
+  showView('screen-welcome');
   translateUI();
 });

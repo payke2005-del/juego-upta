@@ -106,7 +106,7 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   gap: 10px;
 }
 
-.btn-lang, #btn-theme-toggle {
+.btn-lang, #btn-theme-toggle, #btn-sound-toggle {
   background: var(--bg-secondary);
   border: 3px solid var(--accent-red);
   color: var(--accent-red);
@@ -117,7 +117,7 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   box-shadow: 3px 3px 0 #000;
   transition: all 0.1s;
 }
-.btn-lang:hover, #btn-theme-toggle:hover {
+.btn-lang:hover, #btn-theme-toggle:hover, #btn-sound-toggle:hover {
   background: var(--accent-red);
   color: var(--text-dark);
   box-shadow: 2px 2px 0 #000;
@@ -126,6 +126,9 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   background: var(--accent-red);
   color: var(--text-dark);
   box-shadow: none;
+}
+#btn-sound-toggle.muted {
+  opacity: 0.5;
 }
 
 .btn-back-global {
@@ -665,7 +668,6 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   color: #fff;
 }
 
-/* Botón de reenvío */
 #resend-container {
   margin-top: 10px;
   text-align: center;
@@ -712,17 +714,9 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   box-shadow: 0 0 15px rgba(255, 221, 0, 0.5);
 }
 
-.ranking-row.first::before {
-  content: '🥇 ';
-}
-
-.ranking-row.second::before {
-  content: '🥈 ';
-}
-
-.ranking-row.third::before {
-  content: '🥉 ';
-}
+.ranking-row.first::before { content: '🥇 '; }
+.ranking-row.second::before { content: '🥈 '; }
+.ranking-row.third::before { content: '🥉 '; }
 
 .ranking-row .user-name {
   color: var(--accent-yellow);
@@ -771,24 +765,9 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   box-shadow: 1px 1px 0 #000;
 }
 
-.btn-whatsapp {
-  background: #25d366;
-}
-
-.btn-twitter {
-  background: #1da1f2;
-}
-
-.btn-copy {
-  background: var(--accent-orange);
-}
-
-/* ============================================================
-   BOTÓN DE SONIDO
-   ============================================================ */
-#btn-sound-toggle.muted {
-  opacity: 0.5;
-}
+.btn-whatsapp { background: #25d366; }
+.btn-twitter { background: #1da1f2; }
+.btn-copy { background: var(--accent-orange); }
 
 /* ============================================================
    TRANSICIONES SUAVES
@@ -813,17 +792,14 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
 }
 
 /* ============================================================
-   LOGROS (ACHIEVEMENTS) - Estilo Steam/Xbox pixel art
+   LOGROS (ACHIEVEMENTS)
    ============================================================ */
-
-/* --- Grid de tarjetas de logros --- */
 .achievements-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
 }
 
-/* --- Tarjeta individual de logro --- */
 .achievement-card {
   position: relative;
   background: var(--bg-primary);
@@ -839,20 +815,17 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   box-shadow: 5px 5px 0 #000;
 }
 
-/* Logro desbloqueado: borde dorado + brillo pulsante */
 .achievement-card.unlocked {
   border-color: #ffdd00;
   background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(255, 221, 0, 0.08) 100%);
   animation: achievementGlow 2s ease-in-out infinite;
 }
 
-/* Logro bloqueado: apagado y en blanco y negro */
 .achievement-card.locked {
   opacity: 0.4;
   filter: grayscale(100%);
 }
 
-/* --- Elementos internos de la tarjeta --- */
 .achievement-card .achievement-emoji {
   font-size: 3rem;
   margin-bottom: 10px;
@@ -883,7 +856,6 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   font-size: 1.5rem;
 }
 
-/* --- Cajas de estadísticas superiores --- */
 .achievements-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -915,7 +887,9 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   color: var(--accent-orange);
 }
 
-/* --- Contenedor de notificaciones (toasts) de logros --- */
+/* ============================================================
+   NOTIFICACIONES DE LOGROS (TOASTS)
+   ============================================================ */
 .achievement-toast-container {
   position: fixed;
   top: 80px;
@@ -927,7 +901,6 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   pointer-events: none;
 }
 
-/* --- Toast individual de "¡LOGRO DESBLOQUEADO!" --- */
 .achievement-toast {
   display: flex;
   align-items: center;
@@ -963,13 +936,11 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   margin-top: 6px;
 }
 
-/* Clase aplicada justo antes de eliminar el toast */
 .achievement-toast.fade-out {
   opacity: 0;
   transform: translateX(400px);
 }
 
-/* --- Animaciones --- */
 @keyframes slideInRight {
   from {
     transform: translateX(400px);
@@ -981,7 +952,6 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   }
 }
 
-/* Pulso dorado para logros recién desbloqueados */
 @keyframes achievementGlow {
   0%, 100% {
     box-shadow: 0 0 8px rgba(255, 221, 0, 0.4), 3px 3px 0 #000;
@@ -991,20 +961,12 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
   }
 }
 
-/* Rebote de entrada del emoji del toast */
 @keyframes achievementPop {
-  0% {
-    transform: scale(0);
-  }
-  60% {
-    transform: scale(1.3);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(0); }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
 
-/* --- Responsive de logros --- */
 @media (max-width: 600px) {
   .achievements-stats {
     grid-template-columns: repeat(2, 1fr);
@@ -1013,4 +975,177 @@ h3 { font-size: 1.1rem; color: var(--accent-orange); }
     min-width: 200px;
     padding: 12px 15px;
   }
+}
+
+/* ============================================================
+   PANTALLA DE BIENVENIDA
+   ============================================================ */
+#screen-welcome {
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.welcome-title {
+    font-size: 1.3rem;
+    color: var(--accent-yellow);
+    margin-bottom: 25px;
+    line-height: 1.6;
+    text-shadow: 3px 3px 0 #000, 0 0 20px rgba(255, 204, 0, 0.4);
+    animation: welcomePulse 2s ease-in-out infinite;
+}
+
+@keyframes welcomePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.welcome-mission {
+    background: var(--bg-primary);
+    border: 3px solid var(--accent-orange);
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 4px 4px 0 #000;
+    text-align: left;
+}
+
+.welcome-mission p {
+    font-family: 'Silkscreen', monospace;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.welcome-mission p:last-child {
+    margin-bottom: 0;
+}
+
+.welcome-mission strong {
+    color: var(--accent-yellow);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+}
+
+.welcome-quote {
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 5px solid var(--accent-yellow);
+    padding: 20px 25px;
+    margin: 25px 0;
+    font-family: 'Silkscreen', monospace;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--accent-orange);
+    line-height: 1.8;
+    text-align: left;
+    position: relative;
+}
+
+.welcome-quote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 3rem;
+    color: var(--accent-yellow);
+    font-family: 'Press Start 2P', monospace;
+    opacity: 0.5;
+}
+
+.welcome-gallery-title {
+    font-size: 1rem;
+    color: var(--accent-yellow);
+    margin: 30px 0 20px;
+    text-shadow: 2px 2px 0 #000;
+    letter-spacing: 3px;
+}
+
+.welcome-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+    perspective: 1000px;
+}
+
+.welcome-image-card {
+    position: relative;
+    border: 4px solid var(--accent-red);
+    box-shadow: 
+        inset 0 0 0 3px var(--accent-yellow),
+        6px 6px 0 rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: var(--bg-primary);
+    aspect-ratio: 1;
+}
+
+.welcome-image-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 204, 0, 0.1) 0%, 
+        transparent 50%, 
+        rgba(255, 80, 80, 0.1) 100%);
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+
+.welcome-image-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    image-rendering: auto;
+    transition: transform 0.4s;
+}
+
+.welcome-image-card:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-5deg) scale(1.05);
+    box-shadow: 
+        inset 0 0 0 3px var(--accent-yellow),
+        10px 15px 0 rgba(0, 0, 0, 0.9),
+        0 0 30px rgba(255, 204, 0, 0.5);
+    border-color: var(--accent-yellow);
+}
+
+.welcome-image-card:hover img {
+    transform: scale(1.1);
+}
+
+.welcome-image-card:hover::before {
+    opacity: 0;
+}
+
+#btn-start-adventure {
+    font-size: 0.9rem;
+    padding: 18px;
+    margin-top: 10px;
+    animation: btnGlow 2s ease-in-out infinite;
+}
+
+@keyframes btnGlow {
+    0%, 100% { 
+        box-shadow: 4px 4px 0 #000, 0 0 15px rgba(204, 0, 0, 0.5);
+    }
+    50% { 
+        box-shadow: 4px 4px 0 #000, 0 0 30px rgba(255, 204, 0, 0.8);
+    }
+}
+
+@media (max-width: 600px) {
+    .welcome-gallery {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .welcome-title {
+        font-size: 0.9rem;
+    }
+    
+    .welcome-quote {
+        font-size: 0.75rem;
+        padding: 15px;
+    }
 }

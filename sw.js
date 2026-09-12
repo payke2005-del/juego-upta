@@ -5,9 +5,7 @@
 // ==========================================================================
 
 // Nombre del cache: al cambiar la versión, el 'activate' borra los viejos
-const CACHE_NAME = 'pixel-vocacional-v1.0.0';
-
-// Archivos esenciales de la app que se guardan en la primera visita
+const CACHE_NAME = 'pixel-vocacional-v3.0.0';// Archivos esenciales de la app que se guardan en la primera visita
 const urlsToCache = [
   './',
   './index.html',

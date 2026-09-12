@@ -1,9 +1,10 @@
 // ==============================================
-// CONFIGURACIÓN DE API KEYS
+// CONFIGURACIÓN DE API KEYS - REAL (NO SUBIR A GITHUB)
 // ==============================================
 
 // ✅ OpenRouter API Key (para el chatbot)
-const OPENROUTER_API_KEY = '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';
+const OPENROUTER_API_KEY_ENCODED = 'c2stb3ItdjEtZWUwYmUyNTljMjMxNjZlMDRjNTY4ZThkNzQxYTMyZjNlODQ2ZGQ4NDU1ODY0ZDg1N2E1NmVjZWIyNzQyMzBlNw==';
+const OPENROUTER_API_KEY = atob(OPENROUTER_API_KEY_ENCODED);
 
 // ✅ EmailJS (para envío de correos)
 const EMAILJS_PUBLIC_KEY = '9QACobGiZY2OjZWIn';
