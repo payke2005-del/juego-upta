@@ -45,9 +45,9 @@ const ShareSystem = {
     const name = areaName[area] ? areaName[area][lang] : area;
 
     if (lang === 'es') {
-      return `🎓 ¡Acabo de hacer mi test vocacional en Pixel Vocacional!\n\n🏆 Mi mayor afinidad: ${name} (${score}%)\n\n👉 Pruébalo tú también: https://pixel-vocacional.github.io`;
+      return `🎓 ¡Acabo de hacer mi test vocacional en Pixel Vocacional!\n\n🏆 Mi mayor afinidad: ${name} (${score}%)\n\n👉 Pruébalo tú también: https://payke2005-del.github.io/juego-upta/`;
     } else {
-      return `🎓 I just took my vocational test on Pixel Vocacional!\n\n🏆 My highest affinity: ${name} (${score}%)\n\n👉 Try it yourself: https://pixel-vocacional.github.io`;
+      return `🎓 I just took my vocational test on Pixel Vocacional!\n\n🏆 My highest affinity: ${name} (${score}%)\n\n👉 Try it yourself: https://payke2005-del.github.io/juego-upta/`;
     }
   }
 };
